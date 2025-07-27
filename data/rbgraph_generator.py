@@ -51,6 +51,10 @@ if __name__ == '__main__':
         output_file = path / (f"{stub}.gpickle")
 
         with open(output_file, 'wb') as f:
-            pickle.dump(g, f, pickle.HIGHEST_PROTOCOL)
+            pickle.dump(g, f)#, pickle.HIGHEST_PROTOCOL)
         print(f"Generated graph {path}")
+
+        # Read the graph back from the file to verify
+        with open(output_file, 'rb') as f:
+            loaded_g = pickle.load(f)
 

@@ -11,7 +11,9 @@ import dgl
 
 
 def read_dgl_from_graph(graph_path):
-    _g = nx.read_gpickle(graph_path)
+    # _g = nx.read_gpickle(graph_path)
+    with open(graph_path, 'rb') as f:
+        _g = pickle.load(f)
     labelled = "optimal" in graph_path.name or "non-optimal" in graph_path.name
     if labelled:
         g = dgl.from_networkx(_g, node_attrs=['label'])
@@ -74,14 +76,18 @@ def _prepare_instance(source_instance_file: pathlib.Path, cache_directory: pathl
         last_updated = os.path.getmtime(dest_path)
         if source_mtime <= last_updated:
             return  # we already have an up2date version of that file as matrix
-
+    # print(f"Preparing graph file: {source_instance_file}.")
     try:
-        g = nx.read_gpickle(source_instance_file)
+        # g = nx.read_gpickle(source_instance_file)
+        with open(source_instance_file, 'rb') as f:
+            g = pickle.load(f)
     except:
         print(f"Failed to read {source_instance_file}.")
         return
     g.remove_edges_from(nx.selfloop_edges(g)) # remove self loops
-    nx.write_gpickle(g, dest_path)
+    # nx.write_gpickle(g, dest_path)
+    with open(dest_path, 'wb') as f:
+        pickle.dump(g, f, pickle.HIGHEST_PROTOCOL)
     print(f"Updated graph file: {source_instance_file}.")
 
 def get_data_loaders(cfg):
