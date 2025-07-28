@@ -15,9 +15,12 @@ and design efficient GFlowNet algorithms to tackle them.
 
 ## Dependency
 
+Use Python 3.12, e.g., with `pyenv`, and install the dependencies as follows:
+
 ```bash
-pip install hydra-core==1.1.0 omegaconf submitit hydra-submitit-launcher
-pip install dgl==0.6.1
+pip install dgl -f https://data.dgl.ai/wheels/torch-2.4/cu124/repo.html
+pip install hydra-core omegaconf submitit hydra-submitit-launcher
+pip install einops ipdb
 ```
 
 ## Data generation
